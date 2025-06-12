@@ -82,24 +82,12 @@ function App() {
           {/* Секции без собственного фона */}
           <div className="relative z-10">
             <About />
-            
-            {/* Плавный разделитель между секциями */}
-            <div className="relative py-12">
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/10 to-transparent"></div>
-              <div className="container mx-auto px-4">
-                <div className="flex justify-center">
-                  <div className="w-32 h-px bg-gradient-to-r from-transparent via-blue-400/50 to-transparent"></div>
-                </div>
-              </div>
-            </div>
-            
             <FeaturedCar />
+            <ModelsShowcase />
+            <Services />
+            <Testimonials />
           </div>
         </div>
-        
-        <ModelsShowcase />
-        <Services />
-        <Testimonials />
         <Contact />
         <CTASection />
       </main>
