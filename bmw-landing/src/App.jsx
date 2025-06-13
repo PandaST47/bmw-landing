@@ -86,9 +86,9 @@ function App() {
             <ModelsShowcase />
             <Services />
             <Testimonials />
+            <Contact />
           </div>
         </div>
-        <Contact />
         <CTASection />
       </main>
       <Footer />
