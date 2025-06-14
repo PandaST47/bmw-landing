@@ -46,7 +46,7 @@ const Header = () => {
 
   const navItems = [
     { name: 'Модели', href: '#models', icon: Zap },
-    { name: 'Сервис', href: '#services', icon: Star },
+    { name: 'Услуги', href: '#services', icon: Star },
     { name: 'Контакты', href: '#contact', icon: MapPin },
     { name: 'Тест-драйв', href: '#test-drive', icon: ChevronDown },
   ];

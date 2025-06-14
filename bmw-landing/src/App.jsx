@@ -87,9 +87,9 @@ function App() {
             <Services />
             <Testimonials />
             <Contact />
+            <CTASection />
           </div>
         </div>
-        <CTASection />
       </main>
       <Footer />
     </div>

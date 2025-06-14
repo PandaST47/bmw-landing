@@ -86,7 +86,7 @@ const Services = () => {
   ];
 
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section id="services" className="relative py-24 overflow-hidden">
       {/* Заголовок секции */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-20 transform transition-all duration-1000 ${
