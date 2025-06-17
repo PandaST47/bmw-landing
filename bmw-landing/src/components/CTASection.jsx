@@ -127,7 +127,7 @@ const CTASection = () => {
                 </div>
 
                 <div className="text-center py-6 border-t border-white/10">
-                  <div className="text-4xl font-bold text-blue-400 mb-1">от 10 990 000 ₽</div>
+                  <div className="text-4xl font-bold text-blue-400 mb-1">от 10 890 000 ₽</div>
                   <div className="text-blue-200">Стартовая цена BMW M4 Competition</div>
                 </div>
               </div>

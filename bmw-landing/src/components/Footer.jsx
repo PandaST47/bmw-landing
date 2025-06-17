@@ -274,7 +274,7 @@ const Footer = () => {
               <div>
                 <p className="text-gray-400 text-sm mb-4 flex items-center">
                   <Shield className="w-4 h-4 mr-2" />
-                  Официальные сертификаты
+                  Сертификаты и лицензии
                 </p>
                 <div className="flex space-x-3">
                   <div className="flex-1 h-16 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-white/10 rounded-xl flex items-center justify-center hover:scale-105 transition-transform duration-300">

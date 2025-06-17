@@ -90,7 +90,7 @@ const FeaturedCar = () => {
   };
 
   return (
-    <section className="relative min-h-screen py-20">
+    <section id="featured-car" className="relative min-h-screen py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
