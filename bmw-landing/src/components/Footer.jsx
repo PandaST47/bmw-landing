@@ -72,14 +72,14 @@ const Footer = () => {
       </div>
 
       {/* Верхняя декоративная линия */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 via-cyan-400 to-transparent animate-pulse"></div>
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-400 via-blue-600 to-transparent"></div>
       
       {/* Основной контент */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         
         {/* Заголовочная секция */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 rounded-full mb-6 shadow-2xl shadow-blue-500/25 animate-pulse">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 rounded-full mb-6 shadow-2xl shadow-blue-500/25">
             <span className="text-white font-bold text-2xl">BMW</span>
           </div>
           <h2 className="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
