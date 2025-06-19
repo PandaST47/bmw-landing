@@ -11,32 +11,24 @@ const Contact = () => {
       label: 'Адрес',
       value: 'ул. Примерная, д. 123, Екатеринбург',
       description: 'Центр города, возле плотинки',
-      action: 'Построить маршрут',
-      actionType: 'route'
     },
     {
       icon: <Phone className="w-4 h-4 md:w-5 md:h-5" />,
       label: 'Телефон',
       value: '+7 (343) 123-45-67',
       description: 'Звоните в любое время',
-      action: 'Позвонить',
-      actionType: 'phone'
     },
     {
       icon: <Mail className="w-4 h-4 md:w-5 md:h-5" />,
       label: 'Email',
       value: 'info@bmw-ekb.ru',
       description: 'Ответим в течение часа',
-      action: 'Написать',
-      actionType: 'email'
     },
     {
       icon: <Clock className="w-4 h-4 md:w-5 md:h-5" />,
       label: 'Режим работы',
       value: 'Пн-Пт: 9:00-20:00',
       description: 'Сб-Вс: 10:00-18:00',
-      action: 'Записаться',
-      actionType: 'appointment'
     }
   ];
 
@@ -78,26 +70,6 @@ const Contact = () => {
     }
     
     return { isOpen: false, closesAt: null };
-  };
-
-  const handleAction = (actionType, value) => {
-    switch (actionType) {
-      case 'route':
-        const address = encodeURIComponent('ул. Примерная, д. 123, Екатеринбург');
-        window.open(`https://yandex.ru/maps/?text=${address}&mode=routes`, '_blank');
-        break;
-      case 'phone':
-        window.open(`tel:${value.replace(/[^\d+]/g, '')}`);
-        break;
-      case 'email':
-        window.open(`mailto:${value}`);
-        break;
-      case 'appointment':
-        console.log('Открыть форму записи');
-        break;
-      default:
-        break;
-    }
   };
 
   const status = getCurrentStatus();
@@ -186,16 +158,8 @@ const Contact = () => {
                           <div className="text-gray-400 text-sm mb-2">
                             {item.description}
                           </div>
-                          <button 
-                            onClick={() => handleAction(item.actionType, item.value)}
-                            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-bold text-sm group-hover:gap-3 transition-all duration-300 hover:scale-105"
-                          >
-                            {item.action}
-                            <ExternalLink className="w-4 h-4" />
-                          </button>
                         </div>
                       </div>
-
                       <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-r from-blue-600/0 via-blue-500/20 to-blue-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                     </div>
                   ))}
@@ -253,26 +217,6 @@ const Contact = () => {
                     )}
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="mt-6 space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button 
-                  onClick={() => handleAction('phone', '+7 (343) 123-45-67')}
-                  className="group relative bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3 md:p-4 rounded-xl md:rounded-2xl font-bold text-sm md:text-base hover:from-blue-700 hover:to-blue-800 transition-all duration-500 shadow-2xl hover:shadow-blue-500/30 transform hover:scale-105"
-                >
-                  <div className="flex items-center justify-center gap-2 whitespace-nowrap">
-                    <Phone className="w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform duration-300" />
-                    Позвонить сейчас
-                  </div>
-                </button>
-                <button className="group relative bg-gradient-to-r from-orange-500 to-orange-600 text-white p-3 md:p-4 rounded-xl md:rounded-2xl font-bold text-sm md:text-base hover:from-orange-600 hover:to-orange-700 transition-all duration-500 shadow-2xl hover:shadow-orange-500/30 transform hover:scale-105">
-                  <div className="flex items-center justify-center gap-2 whitespace-nowrap">
-                    <Calendar className="w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform duration-300" />
-                    Записаться на прием
-                  </div>
-                </button>
               </div>
             </div>
           </div>

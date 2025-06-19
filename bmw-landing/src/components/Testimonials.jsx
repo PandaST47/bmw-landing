@@ -171,7 +171,7 @@ const Testimonials = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Заголовок секции */}
         <div className="text-center mb-20" data-aos="fade-up">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl mb-8 shadow-2xl">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl mb-8 shadow-2xl animate-pulse">
             <Quote className="w-10 h-10 text-white" />
           </div>
           <h2 className="text-5xl lg:text-7xl font-bold text-white mb-8 tracking-tight">
@@ -383,14 +383,18 @@ const Testimonials = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <button className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl font-semibold text-white shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105 overflow-hidden">
-                  <span className="relative z-10">Записаться на тест-драйв</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue- opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </button>
-                <button className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/30 rounded-xl font-semibold text-white hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
-                  Оставить отзыв
-                </button>
-              </div>
+                      <button 
+                        onClick={() => setIsCallbackModalOpen(true)}
+                        className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 text-white px-10 py-5 rounded-xl font-bold text-lg transition-all duration-300 shadow-xl hover:shadow-blue-500/50 hover:scale-110 hover:-translate-y-2 group relative overflow-hidden"
+                      >
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                      <a href="#test-drive" className="relative z-10 flex items-center gap-3">
+                      <ChevronRight className="w-5 h-5" />
+                        Записаться на тест-драйв
+                      <ChevronLeft size={20} className="transition-transform duration-300 group-hover:translate-x-2" />
+                    </a>
+                  </button>
+                </div>
             </div>
           </div>
         </div>

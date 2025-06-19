@@ -82,7 +82,7 @@ const Header = () => {
                 <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500/50 to-orange-500/50 blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="relative w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-blue-600 via-blue-800 to-blue-600 rounded-full flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform duration-300">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
-                  <span className="text-white font-black text-xs lg:text-sm tracking-wider relative z-10 group-hover:text-orange-400 transition-colors duration-300">BMW</span>
+                  <img src="images/bmw-logo.png" className="text-white font-black text-xs lg:text-sm tracking-wider relative z-10 group-hover:text-orange-400 transition-colors duration-300"></img>
                   <div className="absolute inset-0 rounded-full bg-orange-500/30 scale-0 group-hover:scale-110 opacity-0 group-hover:opacity-100 transition-all duration-500" />
                 </div>
               </div>
