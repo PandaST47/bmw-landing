@@ -74,6 +74,15 @@ const Contact = () => {
 
   const status = getCurrentStatus();
 
+  const handleAction = (action, address) => {
+    if (action === 'route') {
+      const encodedAddress = encodeURIComponent(address);
+      // Используем ссылку на Яндекс.Карты с маршрутом от текущей позиции
+      const url = `https://yandex.ru/maps/?rtext=~${encodedAddress}&rtt=auto`;
+      window.open(url, '_blank');
+    }
+  };
+
   return (
     <section id="contact" className="relative py-12 md:py-16 lg:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

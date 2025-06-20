@@ -10,14 +10,17 @@ import {
   Check,
   Star,
   Sparkles,
-  Zap
+  Zap,
+  X
 } from 'lucide-react';
+import CallbackModal from './CallBackModal';
 
 const Services = () => {
   const [hoveredService, setHoveredService] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
+  const [isCallbackModalOpen, setIsCallbackModalOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 300);
@@ -25,25 +28,53 @@ const Services = () => {
   }, []);
 
   useEffect(() => {
-  const handleKeyDown = (event) => {
-    if (event.key === 'Escape') {
-      closeModal();
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = '';
     }
-  };
 
-  if (isModalOpen) {
-    document.body.style.overflow = 'hidden';
-    document.addEventListener('keydown', handleKeyDown);
-  } else {
-    document.body.style.overflow = '';
-  }
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen]);
 
-  // Убираем при размонтировании (перестраховка)
-  return () => {
-    document.body.style.overflow = '';
-    document.removeEventListener('keydown', handleKeyDown);
-  };
-}, [isModalOpen]);
+  useEffect(() => {
+    const header = document.querySelector('header');
+    if (header) {
+      header.style.transition = 'opacity 0.3s ease, z-index 0.3s ease';
+      if (isCallbackModalOpen) {
+        header.style.opacity = '0';
+        header.style.zIndex = '10';
+      } else {
+        header.style.opacity = '1';
+        header.style.zIndex = '50';
+      }
+    }
+
+    if (isCallbackModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      if (header) {
+        header.style.opacity = '1';
+        header.style.zIndex = '50';
+        header.style.transition = '';
+      }
+      document.body.style.overflow = 'unset';
+    };
+  }, [isCallbackModalOpen]);
 
   const openModal = (service) => {
     setSelectedService(service);
@@ -53,6 +84,11 @@ const Services = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedService(null);
+  };
+
+  const handleConsultationClick = () => {
+    closeModal();
+    setIsCallbackModalOpen(true);
   };
 
   const services = [
@@ -126,44 +162,111 @@ const Services = () => {
 
   return (
     <section id="services" className="relative py-24 overflow-hidden">
+      {/* Модальное окно с уменшенным размером */}
       {isModalOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity duration-300"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity duration-300 p-4"
           onClick={closeModal}
           role="dialog"
           aria-modal="true"
         >
           <div 
-            className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-8 max-w-2xl w-full mx-4 border border-white/20 transform transition-all duration-300"
+            className="relative bg-white/10 backdrop-blur-lg rounded-3xl max-w-2xl w-full max-h-[80vh] overflow-hidden border border-white/20 transform transition-all duration-300"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Кнопка закрытия */}
             <button 
               onClick={closeModal}
-              className="absolute top-4 right-4 text-white hover:text-blue-200 transition-colors"
+              className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:text-blue-200 transition-all duration-300 border border-white/20"
             >
-              ✕
+              <X className="w-5 h-5" />
             </button>
-            {selectedService && (
-              <div>
-                <h2 className="text-3xl font-bold text-white mb-4">{selectedService.title}</h2>
-                <p className="text-blue-100/90 mb-6">{selectedService.description}</p>
-                <div className="mb-6">
-                  <h3 className="text-xl font-semibold text-white mb-3">Особенности:</h3>
-                  <ul className="space-y-2">
-                    {selectedService.features.map((feature, index) => (
-                      <li key={index} className="flex items-center space-x-3">
-                        <Check className="w-5 h-5 text-green-400" />
-                        <span className="text-blue-100/90">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-3">Подробная информация:</h3>
-                  <p className="text-blue-100/90">{selectedService.details}</p>
-                </div>
+            
+            {/* Прокручиваемый контент */}
+            <div className="overflow-y-auto max-h-[80vh] custom-scrollbar">
+              <div className="p-6 sm:p-8">
+                {selectedService && (
+                  <div>
+                    {/* Заголовок с иконкой */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+                      <div className={`
+                        w-16 h-16 bg-gradient-to-r ${selectedService.color} 
+                        rounded-2xl flex items-center justify-center flex-shrink-0
+                      `}>
+                        <selectedService.icon className="w-8 h-8 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 break-words">
+                          {selectedService.title}
+                        </h2>
+                        <p className="text-blue-100/90 text-base">
+                          {selectedService.description}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Особенности */}
+                    <div className="mb-6">
+                      <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-3">
+                        <Star className="w-5 h-5 text-yellow-400" />
+                        Особенности
+                      </h3>
+                      <div className="grid grid-cols-1 gap-3">
+                        {selectedService.features.map((feature, index) => (
+                          <div key={index} className="flex items-start space-x-3 p-3 bg-white/5 rounded-xl backdrop-blur-sm border border-white/10">
+                            <div className={`
+                              w-6 h-6 rounded-full bg-gradient-to-r ${selectedService.color} 
+                              flex items-center justify-center flex-shrink-0 mt-0.5
+                            `}>
+                              <Check className="w-3.5 h-3.5 text-white" />
+                            </div>
+                            <span className="text-blue-100/90 text-sm leading-relaxed">
+                              {feature}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Подробная информация */}
+                    <div className="mb-6">
+                      <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-3">
+                        <Sparkles className="w-5 h-5 text-blue-400" />
+                        Подробная информация
+                      </h3>
+                      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+                        <p className="text-blue-100/90 text-sm leading-relaxed">
+                          {selectedService.details}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Кнопки действий */}
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <button 
+                        onClick={handleConsultationClick}
+                        className={`
+                          flex-1 bg-gradient-to-r ${selectedService.color} 
+                          hover:shadow-2xl hover:shadow-blue-500/25
+                          rounded-2xl py-3 px-4 font-semibold text-white
+                          transition-all duration-300 transform hover:scale-[1.02]
+                          flex items-center justify-center gap-2
+                        `}
+                      >
+                        <span className="text-sm">Записаться на консультацию</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                      <button 
+                        onClick={closeModal}
+                        className="px-4 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 rounded-2xl text-white font-semibold transition-all duration-300 text-sm"
+                      >
+                        Закрыть
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       )}
@@ -179,7 +282,7 @@ const Services = () => {
             </div>
           </div>
           
-          <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
             Премиальные услуги
             <span className="block bg-gradient-to-r from-blue-400 via-blue-400 to-blue-400 bg-clip-text text-transparent animate-pulse">
               BMW
@@ -187,7 +290,7 @@ const Services = () => {
           </h2>
           
           <div className="relative max-w-4xl mx-auto">
-            <p className="text-xl lg:text-2xl text-blue-100/90 leading-relaxed font-light">
+            <p className="text-lg sm:text-xl lg:text-2xl text-blue-100/90 leading-relaxed font-light">
               Полный спектр услуг премиум-класса от официального дилера BMW — 
               ваш путь к совершенству начинается здесь
             </p>
@@ -195,7 +298,7 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             const isHovered = hoveredService === service.id;
@@ -224,53 +327,53 @@ const Services = () => {
                     transition-opacity duration-500 ${isHovered ? 'opacity-10' : ''}
                   `}></div>
                   
-                  <div className="relative z-10 p-8">
-                    <div className="relative mb-8">
+                  <div className="relative z-10 p-6 sm:p-8 flex flex-col h-full">
+                    <div className="relative mb-6 sm:mb-8">
                       <div className={`
                         absolute inset-0 bg-gradient-to-r ${service.color} rounded-2xl blur-lg 
                         opacity-0 group-hover:opacity-40 transition-all duration-500
                         ${isHovered ? 'scale-110' : ''}
                       `}></div>
                       <div className={`
-                        relative w-16 h-16 bg-gradient-to-r ${service.color} rounded-2xl 
+                        relative w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r ${service.color} rounded-2xl 
                         flex items-center justify-center transform transition-all duration-500
                         ${isHovered ? 'scale-110 rotate-3' : 'group-hover:scale-105'}
                       `}>
-                        <IconComponent className="w-8 h-8 text-white" />
+                        <IconComponent className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
                       </div>
                     </div>
 
-                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-100 transition-colors duration-300">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 group-hover:text-blue-100 transition-colors duration-300">
                       {service.title}
                     </h3>
                     
-                    <p className="text-blue-100/80 mb-8 leading-relaxed text-lg">
+                    <p className="text-blue-100/80 mb-6 sm:mb-8 leading-relaxed text-base sm:text-lg">
                       {service.description}
                     </p>
 
-                    <ul className="space-y-4 mb-10">
+                    <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-grow">
                       {service.features.map((feature, featureIndex) => (
                         <li 
                           key={featureIndex}
                           className={`
-                            flex items-center space-x-4 transform transition-all duration-500
+                            flex items-center space-x-3 sm:space-x-4 transform transition-all duration-500
                             ${isHovered ? 'translate-x-2' : ''}
                           `}
                           style={{ transitionDelay: `${featureIndex * 100 + 200}ms` }}
                         >
                           <div className={`
-                            relative w-6 h-6 rounded-full bg-gradient-to-r ${service.color} 
+                            relative w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-r ${service.color} 
                             flex items-center justify-center flex-shrink-0
                             ${isHovered ? 'scale-110 shadow-lg' : ''}
                             transition-all duration-300
                           `}>
-                            <Check className="w-3.5 h-3.5 text-white" />
+                            <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
                             <div className={`
                               absolute inset-0 bg-gradient-to-r ${service.color} rounded-full 
                               blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300
                             `}></div>
                           </div>
-                          <span className="text-blue-100/90 font-medium">
+                          <span className="text-blue-100/90 font-medium text-sm sm:text-base">
                             {feature}
                           </span>
                         </li>
@@ -283,9 +386,10 @@ const Services = () => {
                         group/btn relative w-full overflow-hidden
                         bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm
                         border border-white/20 hover:border-white/40
-                        rounded-2xl py-4 px-6 font-semibold text-white
+                        rounded-2xl py-3 sm:py-4 px-4 sm:px-6 font-semibold text-white
                         transition-all duration-500 transform hover:scale-105
                         ${isHovered ? 'shadow-2xl shadow-white/20' : ''}
+                        mt-auto
                       `}
                     >
                       <div className={`
@@ -294,14 +398,14 @@ const Services = () => {
                         transition-transform duration-500 origin-left
                       `}></div>
                       <div className="relative flex items-center justify-center space-x-3">
-                        <span className="text-lg">Узнать подробнее</span>
-                        <ArrowRight className="w-6 h-6 transform transition-all duration-300 group-hover/btn:translate-x-2 group-hover/btn:scale-110" />
+                        <span className="text-base sm:text-lg">Узнать подробнее</span>
+                        <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 transform transition-all duration-300 group-hover/btn:translate-x-2 group-hover/btn:scale-110" />
                       </div>
                     </button>
                   </div>
 
                   <div className="absolute top-6 right-6 opacity-5 group-hover:opacity-10 transition-opacity duration-500">
-                    <IconComponent className="w-32 h-32 text-white" />
+                    <IconComponent className="w-24 h-24 sm:w-32 sm:h-32 text-white" />
                   </div>
                 </div>
               </div>
@@ -309,6 +413,28 @@ const Services = () => {
           })}
         </div>
       </div>
+
+      <CallbackModal 
+        isOpen={isCallbackModalOpen} 
+        onClose={() => setIsCallbackModalOpen(false)} 
+      />
+
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.5);
+        }
+      `}</style>
     </section>
   );
 };

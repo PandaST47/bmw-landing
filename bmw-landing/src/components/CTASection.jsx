@@ -236,7 +236,6 @@ const CTASection = () => {
                                 <option key={index} value={model} className="bg-slate-800 text-white">{model}</option>
                               ))}
                             </select>
-                            <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-300 pointer-events-none group-focus-within:text-blue-400 transition-colors" />
                           </div>
 
                           <div className="grid grid-cols-2 gap-4">
@@ -267,7 +266,6 @@ const CTASection = () => {
                                   <option key={index} value={time} className="bg-slate-800 text-white">{time}</option>
                                 ))}
                               </select>
-                              <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-300 pointer-events-none group-focus-within:text-blue-400 transition-colors" />
                             </div>
                           </div>
 
