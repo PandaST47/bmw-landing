@@ -7,11 +7,11 @@ const Hero = () => {
   const [isMobile, setIsMobile] = useState(false);
   const heroRef = useRef(null);
 
-  // Прямые пути к изображениям
+  // Image paths (ensure these exist in public/images)
   const heroImages = [
-    'images/bmw-m4-hero-2.jpg',
-    'images/bmw-m4-hero.jpg',
-    'images/bmw-m4-hero-3.jpg',
+    '/images/bmw-m4-hero-2.jpg',
+    '/images/bmw-m4-hero.jpg',
+    '/images/bmw-m4-hero-3.jpg',
   ];
 
   // Check if device is mobile
@@ -23,6 +23,14 @@ const Hero = () => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Image preloading to prevent loading delays
+  useEffect(() => {
+    heroImages.forEach((image) => {
+      const img = new Image();
+      img.src = image;
+    });
   }, []);
 
   // Auto-slide effect
@@ -70,7 +78,7 @@ const Hero = () => {
       ref={heroRef}
       className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-blue-800 to-black"
     >
-      {/* Background Images with Direct img elements */}
+      {/* Dynamic Background with Parallax */}
       <div className="absolute inset-0 w-full h-full">
         {heroImages.map((image, index) => (
           <div
@@ -78,16 +86,15 @@ const Hero = () => {
             className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out ${
               index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
             }`}
+            style={{
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: isMobile ? 'center center' : 'center',
+              backgroundRepeat: 'no-repeat',
+              transform: isMobile ? 'none' : `scale(${1 + mousePosition.x * 0.015}) translate(${mousePosition.x * 8}px, ${mousePosition.y * 4}px)`,
+              transition: isMobile ? 'opacity 1s ease-in-out' : 'transform 0.5s ease-out, opacity 1s ease-in-out, scale 1s ease-in-out',
+            }}
           >
-            <img
-              src={image}
-              alt={`BMW M4 Hero ${index + 1}`}
-              className="w-full h-full object-cover"
-              style={{
-                transform: isMobile ? 'none' : `scale(${1 + mousePosition.x * 0.015}) translate(${mousePosition.x * 8}px, ${mousePosition.y * 4}px)`,
-                transition: isMobile ? 'opacity 1s ease-in-out' : 'transform 0.5s ease-out, opacity 1s ease-in-out, scale 1s ease-in-out',
-              }}
-            />
             {/* Enhanced Gradient Overlay for better readability */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-800/80 via-blue-900/60 to-black/80 md:from-blue-700/70 md:via-blue-800/40 md:to-black/60" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent md:from-black/80 md:via-transparent md:to-transparent" />
