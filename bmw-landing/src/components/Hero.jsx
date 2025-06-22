@@ -9,9 +9,9 @@ const Hero = () => {
 
   // Image paths (ensure these exist in public/images)
   const heroImages = [
-    './images/bmw-m4-hero-2.jpg',
-    './images/bmw-m4-hero.jpg',
-    './images/bmw-m4-hero-3.jpg',
+    'images/bmw-m4-hero-2.jpg',
+    'images/bmw-m4-hero.jpg',
+    'images/bmw-m4-hero-3.jpg',
   ];
 
   // Check if device is mobile
