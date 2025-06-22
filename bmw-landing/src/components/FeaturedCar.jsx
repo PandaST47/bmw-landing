@@ -24,14 +24,14 @@ const FeaturedCar = () => {
   });
 
   const carImages = [
-    '/images/bmw-m4-gallery/front.jpg',
-    '/images/bmw-m4-gallery/side.jpg',
-    '/images/bmw-m4-gallery/rear.jpg',
-    '/images/bmw-m4-gallery/interior.jpg',
-    '/images/bmw-m4-gallery/engine.jpg',
-    '/images/bmw-m4-gallery/wheel.jpg',
-    '/images/bmw-m4-gallery/dashboard.jpg',
-    '/images/bmw-m4-gallery/seats.jpg',
+    'images/bmw-m4-gallery/front.jpg',
+    'images/bmw-m4-gallery/side.jpg',
+    'images/bmw-m4-gallery/rear.jpg',
+    'images/bmw-m4-gallery/interior.jpg',
+    'images/bmw-m4-gallery/engine.jpg',
+    'images/bmw-m4-gallery/wheel.jpg',
+    'images/bmw-m4-gallery/dashboard.jpg',
+    'images/bmw-m4-gallery/seats.jpg',
   ];
 
   const imageLabels = [
