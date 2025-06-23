@@ -149,7 +149,7 @@ const ModelsShowcase = () => {
       name: 'BMW M2',
       category: 'Спортивное купе',
       image: 'images/bmw-m4-hero-2.jpg',
-      priceFrom: 5690000,
+      priceFrom: 5790000,
       features: ['Чистый драйв', 'Задний привод', 'M Performance', 'Трек-фокус'],
       specs: {
         power: '460 л.с.',
